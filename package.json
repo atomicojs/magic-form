@@ -1,0 +1,47 @@
+{
+    "name": "pkg-browser",
+    "description": "pkg-browser",
+    "workspaces": [
+        "src/**/*"
+    ],
+    "version": "0.0.0",
+    "type": "module",
+    "publishConfig": {
+        "access": "public"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@github.com/uppercod/pkg-browser.git"
+    },
+    "keywords": [
+        "browser",
+        "dom"
+    ],
+    "author": "UpperCod",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/uppercod/pkg-browser/issues"
+    },
+    "homepage": "https://github.com/uppercod/pkg-browser#readme",
+    "scripts": {
+        "start": "vite",
+        "build": "vite build",
+        "test": "wtr tests/**/*.test.js --node-resolve",
+        "exports": "exports src/components.js --exports --types --main module",
+        "prepublishOnly": "npm run test && npm run exports"
+    },
+    "devDependencies": {
+        "@atomico/exports": "^0.22.0",
+        "typescript": "^4.5.4",
+        "@esm-bundle/chai": "*",
+        "@uppercod/vite-meta-url": "latest",
+        "@uppercod/vite-meta-url-load-css": "latest",
+        "@web/test-runner": "^0.13.22",
+        "vite": "latest",
+        "vite-web-test-runner-plugin": "^0.1.0"
+    },
+    "prettier": {
+        "tabWidth": 4,
+        "singleQuote": false
+    }
+}
