@@ -1,17 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Package browser - Started</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <script async type="module" src="./src/module.js"></script>
-  </head>
-  <body>
-    <h1>My package</h1>
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Package browser - Started</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+            rel="stylesheet"
+        />
+    </head>
+    <body>
+        <magic-form-provider id="f1">
+            <magic-form>
+                <h1>User</h1>
+                <form action="user/1">
+                    <input type="text" name="name" value="UpperCod" />
+                    <button>Update</button>
+                </form>
+            </magic-form>
+        </magic-form-provider>
+        <script type="module">
+            import "./src/components";
+
+            f1.actions = {
+                async "user/:id"(form, params) {
+                    await new Promise((resolve) =>
+                        setTimeout(resolve, 1000, true)
+                    );
+                    console.log(form);
+                },
+            };
+        </script>
+    </body>
 </html>
