@@ -1,6 +1,6 @@
 {
-    "name": "pkg-browser",
-    "description": "pkg-browser",
+    "name": "@atomico/magic-form",
+    "description": "Improves the form development experience thanks to the use of webcomponents to centralize submission",
     "workspaces": [
         "src/**/*"
     ],
@@ -11,22 +11,23 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+ssh://git@github.com/uppercod/pkg-browser.git"
+        "url": "git+ssh://git@github.com/atomicojs/magic-form.git"
     },
     "keywords": [
         "browser",
-        "dom"
+        "webcomponents",
+        "form"
     ],
     "author": "UpperCod",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/uppercod/pkg-browser/issues"
+        "url": "https://github.com/atomicojs/magic-form/issues"
     },
-    "homepage": "https://github.com/uppercod/pkg-browser#readme",
+    "homepage": "https://github.com/atomicojs/magic-form#readme",
     "scripts": {
-        "start": "vite --force",
+        "start": "vite",
         "build": "vite build",
-        "test": "wtr tests/**/*.test.tsx --node-resolve --puppeteer",
+        "test": "rm -rf node_modules/.vite && wtr tests/**/*.test.tsx --node-resolve",
         "exports": "exports src/*.js --exports --types --main components",
         "prepublishOnly": "npm run test && npm run exports"
     },
@@ -35,8 +36,7 @@
         "@esm-bundle/chai": "*",
         "@uppercod/vite-meta-url": "latest",
         "@uppercod/vite-meta-url-load-css": "latest",
-        "@web/test-runner": "^0.13.22",
-        "@web/test-runner-puppeteer": "^0.10.4",
+        "@web/test-runner": "^0.13.23",
         "typescript": "^4.5.4",
         "vite": "latest",
         "vite-web-test-runner-plugin": "^0.1.0"
@@ -47,7 +47,6 @@
     },
     "dependencies": {
         "@atomico/hooks": "^3.23.0",
-        "@uppercod/exp-route": "^1.3.0",
-        "atomico": "^1.34.3"
+        "atomico": "^1.34.4"
     }
 }
