@@ -81,7 +81,7 @@ export function useMagicFormProvider(
     actions: MagicFormsActions = {}
 ) {
     const [forms, setForms] = useState<{
-        [action: string]: Map<HTMLFormElement, MagicFormActionStatus>;
+        [action: string]: Map<HTMLFormElement | string, MagicFormActionStatus>;
     }>({});
 
     useListener(
@@ -92,7 +92,7 @@ export function useMagicFormProvider(
             const {
                 detail: { action, target, observe },
             } = event;
-
+            const id = target.getAttribute("name") || target;
             setForms((forms) => {
                 if (!forms[action]) {
                     forms = {
@@ -101,7 +101,7 @@ export function useMagicFormProvider(
                     };
                 }
 
-                const prev = forms[action].get(target);
+                const prev = forms[action].get(id);
 
                 if (!prev || prev.status != MagicFormStatus.pending) {
                     let nextForms = new Map(forms[action]);
@@ -109,17 +109,14 @@ export function useMagicFormProvider(
                         status: MagicFormStatus.pending,
                     };
 
-                    nextForms.set(target, current);
+                    nextForms.set(id, current);
 
                     observe(current);
 
                     const update = (current: MagicFormActionStatus) => {
                         setForms((forms) => ({
                             ...forms,
-                            [action]: new Map(forms[action]).set(
-                                target,
-                                current
-                            ),
+                            [action]: new Map(forms[action]).set(id, current),
                         }));
                         observe(current);
                     };
@@ -163,7 +160,7 @@ export function useMagicFormProviderState(
     const [forms, setForms] = useState<MagicForms>({});
     useListener(
         ref,
-        "ChangeStatus",
+        "ChangeForms",
         () => ref.current?.forms && setForms(ref.current.forms)
     );
     return forms;
@@ -177,7 +174,7 @@ export function useMagicFormState(
     });
     useListener(
         ref,
-        "ChangeStatus",
+        "ChangeState",
         () => ref.current?.state && setState(ref.current.state)
     );
     return state;

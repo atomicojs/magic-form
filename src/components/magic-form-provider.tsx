@@ -15,16 +15,10 @@ FormProvider.props = {
     forms: {
         type: Object,
         event: {
-            type: "ChangeStatus",
+            type: "ChangeForms",
         },
         value: (): MagicForms => ({}),
     },
 };
 
 export const MagicFormProvider = c(FormProvider);
-
-<MagicFormProvider
-    actions={{
-        async add() {},
-    }}
-></MagicFormProvider>;
