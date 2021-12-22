@@ -14,7 +14,7 @@
         <magic-form-provider id="f1">
             <magic-form>
                 <h1>User</h1>
-                <form action="user/1">
+                <form action="user">
                     <input type="text" name="name" value="UpperCod" />
                     <button>Update</button>
                 </form>
@@ -24,11 +24,10 @@
             import "./src/components";
 
             f1.actions = {
-                async "user/:id"(form, params) {
+                async user(form, params) {
                     await new Promise((resolve) =>
                         setTimeout(resolve, 1000, true)
                     );
-                    console.log(form);
                 },
             };
         </script>

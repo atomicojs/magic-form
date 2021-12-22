@@ -1,8 +1,9 @@
-import { c, useRef } from "atomico";
-import { useMagicForm, MagicFormActionStatus } from "../hooks";
+import { c, useRef, useHost } from "atomico";
+import { useMagicForm, MagicFormActionStatus, MagicFormStatus } from "../hooks";
 import { useSlot } from "@atomico/hooks/use-slot";
 
 function magicForm() {
+    const host = useHost();
     const refSlot = useRef();
     const refForm = useRef();
     refForm.current = useSlot(refSlot).find(
@@ -10,9 +11,8 @@ function magicForm() {
     );
     const [state, submit] = useMagicForm(refForm);
     return (
-        <host state={state} submit={submit}>
+        <host shadowDom state={state} submit={submit}>
             <slot ref={refSlot}></slot>
-            <h1>{state?.status}</h1>
         </host>
     );
 }
@@ -27,7 +27,10 @@ magicForm.props = {
         event: {
             type: "ChangeState",
         },
-        value: (): MagicFormActionStatus => null,
+        value: (): MagicFormActionStatus => ({
+            status: MagicFormStatus.quiet,
+            result: null,
+        }),
     },
 };
 

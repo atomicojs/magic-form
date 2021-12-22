@@ -1,5 +1,5 @@
 {
-  "include": ["src/**/*","tests/**/*", "vite.config.js","types.d.ts"],
+  "include": ["src/**/*","tests/**/*" ,"vite.config.js","types.d.ts"],
   "compilerOptions": {
       "jsx": "react-jsx",
       "jsxImportSource": "atomico",
@@ -8,6 +8,7 @@
       "declaration": true,
       "emitDeclarationOnly": true,
       "outDir": "",
-      "lib": ["ESNext", "DOM","DOM.Iterable"]
+      "lib": ["ESNext", "DOM","DOM.Iterable"],
+      "strictNullChecks": false
     }
   }

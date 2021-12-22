@@ -2,12 +2,14 @@ import { useEvent, Ref, useState, DOMEvent } from "atomico";
 import { useListener } from "@atomico/hooks/use-listener";
 
 export enum MagicFormStatus {
+    quiet = "",
     pending = "pending",
     fulfilled = "fulfilled",
     rejected = "rejected",
 }
 
 export type MagicFormKeyStatus =
+    | MagicFormStatus.quiet
     | MagicFormStatus.pending
     | MagicFormStatus.fulfilled
     | MagicFormStatus.rejected;
@@ -54,12 +56,13 @@ export function useMagicForm(
             target,
             action:
                 options?.action ||
-                ref.current.getAttribute("action") ||
-                target.getAttribute("action"),
+                ref.current?.getAttribute("action") ||
+                target.getAttribute("action") ||
+                "",
             observe: setState,
         });
     };
-
+    //@ts-ignore
     useListener(ref, "submit", submit);
 
     const res: [MagicFormActionStatus, () => void] = [state, submit];
@@ -69,7 +72,10 @@ export function useMagicForm(
 /**
  * Resolves requests sent by useMagicForm
  */
-export function useMagicFormProvider(ref: Ref, actions: MagicFormsActions) {
+export function useMagicFormProvider(
+    ref: Ref,
+    actions: MagicFormsActions = {}
+) {
     const [forms, setForms] = useState<{
         [action: string]: Map<HTMLFormElement, MagicFormActionStatus>;
     }>({});
@@ -77,6 +83,7 @@ export function useMagicFormProvider(ref: Ref, actions: MagicFormsActions) {
     useListener(
         ref,
         eventTypeMagicFormSubmit,
+        //@ts-ignore
         (event: CustomEvent<MagicFormDetail>) => {
             const {
                 detail: { action, target, observe },
@@ -112,20 +119,23 @@ export function useMagicFormProvider(ref: Ref, actions: MagicFormsActions) {
                         }));
                         observe(current);
                     };
+
+                    const fn = actions[action];
                     // the listening process will generate an update on the same state once the promise is resolved
-                    actions[action](target)
-                        .then((result) =>
-                            update({
-                                result,
-                                status: MagicFormStatus.fulfilled,
-                            })
-                        )
-                        .catch((result) =>
-                            update({
-                                result,
-                                status: MagicFormStatus.rejected,
-                            })
-                        );
+                    fn &&
+                        fn(target)
+                            .then((result) =>
+                                update({
+                                    result,
+                                    status: MagicFormStatus.fulfilled,
+                                })
+                            )
+                            .catch((result) =>
+                                update({
+                                    result,
+                                    status: MagicFormStatus.rejected,
+                                })
+                            );
                     // create a new object to force update
                     forms = {
                         ...forms,
