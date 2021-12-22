@@ -161,7 +161,11 @@ export function useMagicFormProviderState(
     >
 ) {
     const [forms, setForms] = useState<MagicForms>({});
-    useListener(ref, "ChangeStatus", () => setForms(ref.current.forms));
+    useListener(
+        ref,
+        "ChangeStatus",
+        () => ref.current?.forms && setForms(ref.current.forms)
+    );
     return forms;
 }
 
@@ -171,6 +175,10 @@ export function useMagicFormState(
     const [state, setState] = useState<MagicFormActionStatus>({
         status: MagicFormStatus.quiet,
     });
-    useListener(ref, "ChangeStatus", () => setState(ref.current.state));
+    useListener(
+        ref,
+        "ChangeStatus",
+        () => ref.current?.state && setState(ref.current.state)
+    );
     return state;
 }
