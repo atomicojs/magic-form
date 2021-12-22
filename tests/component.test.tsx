@@ -49,6 +49,8 @@ it("MagicFormProvider", async () => {
         </MagicFormProvider>
     );
 
+    //console.log(refForm.current);
+
     setTimeout(() => {
         let i = 10;
         while (i--) {
