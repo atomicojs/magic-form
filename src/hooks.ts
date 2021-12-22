@@ -29,6 +29,10 @@ export interface MagicFormActionStatus {
     status: MagicFormKeyStatus;
 }
 
+export interface MagicForms {
+    [form: string]: MagicFormActionStatus;
+}
+
 export type Action = (form: HTMLFormElement) => Promise<any>;
 
 export const eventTypeMagicFormSubmit = "MagicFormSubmit";
@@ -149,4 +153,24 @@ export function useMagicFormProvider(
     );
 
     return forms;
+}
+
+export function useMagicFormProviderState(
+    ref: Ref<
+        typeof import("./components/magic-form-provider").MagicFormProvider
+    >
+) {
+    const [forms, setForms] = useState<MagicForms>({});
+    useListener(ref, "ChangeStatus", () => setForms(ref.current.forms));
+    return forms;
+}
+
+export function useMagicFormState(
+    ref: Ref<typeof import("./components/magic-form").MagicForm>
+) {
+    const [state, setState] = useState<MagicFormActionStatus>({
+        status: MagicFormStatus.quiet,
+    });
+    useListener(ref, "ChangeStatus", () => setState(ref.current.state));
+    return state;
 }

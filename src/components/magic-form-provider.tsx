@@ -1,5 +1,5 @@
 import { c, Props, useHost } from "atomico";
-import { useMagicFormProvider, MagicFormsActions } from "../hooks";
+import { useMagicFormProvider, MagicFormsActions, MagicForms } from "../hooks";
 
 function FormProvider(props: Props<typeof FormProvider.props>) {
     const host = useHost();
@@ -8,7 +8,6 @@ function FormProvider(props: Props<typeof FormProvider.props>) {
 }
 
 FormProvider.props = {
-    age: Number,
     actions: {
         type: Object,
         value: (): MagicFormsActions => ({}),
@@ -18,6 +17,7 @@ FormProvider.props = {
         event: {
             type: "ChangeStatus",
         },
+        value: (): MagicForms => ({}),
     },
 };
 
