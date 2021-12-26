@@ -4,7 +4,7 @@
     "workspaces": [
         "src/**/*"
     ],
-    "version": "0.3.0",
+    "version": "0.4.0",
     "type": "module",
     "publishConfig": {
         "access": "public"
@@ -45,8 +45,8 @@
         "tabWidth": 4,
         "singleQuote": false
     },
-    "dependencies": {
+    "peerDependencies": {
         "@atomico/hooks": "^3.23.0",
-        "atomico": "^1.34.4"
+        "atomico": "^1.35.0"
     }
 }

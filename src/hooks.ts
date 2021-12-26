@@ -15,6 +15,7 @@ export type MagicFormKeyStatus =
     | MagicFormStatus.rejected;
 
 export interface MagicFormDetail {
+    name: string;
     action: string;
     target: HTMLFormElement;
     observe(state: MagicFormActionStatus): void;
@@ -42,7 +43,7 @@ export const eventTypeMagicFormSubmit = "MagicFormSubmit";
  */
 export function useMagicForm(
     ref: Ref<HTMLFormElement>,
-    options?: { action?: string }
+    options?: { action?: string; name?: string }
 ) {
     const [state, setState] = useState<MagicFormActionStatus>();
 
@@ -52,17 +53,12 @@ export function useMagicForm(
     });
 
     const submit = (event?: DOMEvent<"submit">) => {
-        if (event) {
-            event.preventDefault();
-        }
-        const target = (event?.target || ref.current) as HTMLFormElement;
+        if (event) event.preventDefault();
+        const { current: target } = ref;
         dispatchSubmit({
             target,
-            action:
-                options?.action ||
-                ref.current?.getAttribute("action") ||
-                target.getAttribute("action") ||
-                "",
+            action: options?.action || target.getAttribute("action") || "",
+            name: options?.name || target.getAttribute("name") || "",
             observe: setState,
         });
     };
@@ -90,9 +86,14 @@ export function useMagicFormProvider(
         //@ts-ignore
         (event: CustomEvent<MagicFormDetail>) => {
             const {
-                detail: { action, target, observe },
+                detail: { action, target, observe, name },
             } = event;
-            const id = target.getAttribute("name") || target;
+            // If the action is not found the event will continue to bubble
+            if (!actions[action]) return;
+            event.stopPropagation();
+
+            const id = name || target;
+
             setForms((forms) => {
                 if (!forms[action]) {
                     forms = {

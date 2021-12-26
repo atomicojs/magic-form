@@ -12,24 +12,48 @@
     </head>
     <body>
         <magic-form-provider id="f1">
-            <magic-form>
-                <h1>User</h1>
-                <form action="user">
-                    <input type="text" name="name" value="UpperCod" />
-                    <button>Update</button>
-                </form>
-            </magic-form>
+            <magic-form-provider id="f2">
+                <magic-form>
+                    <h1>Login</h1>
+                    <form action="login" name="login">
+                        <input type="text" name="name" value="UpperCod" />
+                        <button>Login</button>
+                    </form>
+                </magic-form>
+                <magic-form>
+                    <h1>User</h1>
+                    <form action="user" name="user">
+                        <input type="text" name="name" value="UpperCod" />
+                        <button>Update</button>
+                    </form>
+                </magic-form>
+            </magic-form-provider>
         </magic-form-provider>
         <script type="module">
             import "./src/components";
 
             f1.actions = {
+                async login(form, params) {
+                    await new Promise((resolve) =>
+                        setTimeout(resolve, 1000, true)
+                    );
+                },
+            };
+
+            f2.actions = {
                 async user(form, params) {
                     await new Promise((resolve) =>
                         setTimeout(resolve, 1000, true)
                     );
                 },
             };
+
+            f1.addEventListener("ChangeForms", ({ target }) => {
+                console.log(target.forms);
+            });
+            f2.addEventListener("ChangeForms", ({ target }) => {
+                console.log(target.forms);
+            });
         </script>
     </body>
 </html>
