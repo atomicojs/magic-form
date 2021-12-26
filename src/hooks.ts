@@ -54,7 +54,7 @@ export function useMagicForm(
 
     const submit = (event?: DOMEvent<"submit">) => {
         if (event) event.preventDefault();
-        const { current: target } = ref;
+        const { current: target } = ref as any;
         dispatchSubmit({
             target,
             action: options?.action || target.getAttribute("action") || "",
