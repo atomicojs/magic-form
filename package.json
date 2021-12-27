@@ -4,7 +4,7 @@
     "workspaces": [
         "src/**/*"
     ],
-    "version": "0.5.0",
+    "version": "0.5.1",
     "type": "module",
     "publishConfig": {
         "access": "public"
@@ -32,7 +32,7 @@
         "prepublishOnly": "npm run test && npm run exports"
     },
     "devDependencies": {
-        "@atomico/exports": "^0.22.0",
+        "@atomico/exports": "^0.22.2",
         "@atomico/hooks": "^3.23.0",
         "@esm-bundle/chai": "*",
         "@uppercod/vite-meta-url": "latest",
