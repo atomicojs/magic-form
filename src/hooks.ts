@@ -15,7 +15,7 @@ export type MagicFormKeyStatus =
     | MagicFormStatus.rejected;
 
 export interface MagicFormDetail {
-    name: string;
+    name: string | Symbol;
     action: string;
     target: HTMLFormElement;
     observe(state: MagicFormActionStatus): void;
@@ -27,6 +27,7 @@ export interface MagicFormsActions {
 
 export interface MagicFormActionStatus {
     result?: any;
+    timestamp?: number;
     status: MagicFormKeyStatus;
 }
 
@@ -77,7 +78,10 @@ export function useMagicFormProvider(
     actions: MagicFormsActions = {}
 ) {
     const [forms, setForms] = useState<{
-        [action: string]: Map<HTMLFormElement | string, MagicFormActionStatus>;
+        [action: string]: Map<
+            HTMLFormElement | string | Symbol,
+            MagicFormActionStatus
+        >;
     }>({});
 
     useListener(
@@ -106,7 +110,10 @@ export function useMagicFormProvider(
 
                 if (!prev || prev.status != MagicFormStatus.pending) {
                     let nextForms = new Map(forms[action]);
+                    const timestamp = Date.now();
+
                     let current: MagicFormActionStatus = {
+                        timestamp,
                         status: MagicFormStatus.pending,
                     };
 
@@ -129,12 +136,14 @@ export function useMagicFormProvider(
                             .then((result) =>
                                 update({
                                     result,
+                                    timestamp,
                                     status: MagicFormStatus.fulfilled,
                                 })
                             )
                             .catch((result) =>
                                 update({
                                     result,
+                                    timestamp,
                                     status: MagicFormStatus.rejected,
                                 })
                             );
