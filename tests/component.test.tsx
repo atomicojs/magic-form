@@ -1,8 +1,7 @@
 //@ts-ignore
 import { expect } from "@esm-bundle/chai";
-import { DOMCustomEvent, Ref } from "atomico";
 import { fixture } from "atomico/test-dom";
-import { MagicFormProvider, MagicForm } from "../src/components";
+import { MagicFormProvider, MagicForm } from "../src/components.js";
 
 describe("test", () => {
     it("MagicFormProvider", async () => {
@@ -18,7 +17,6 @@ describe("test", () => {
 
         let resolve: (value?: any) => void;
         let spyAdd = [];
-        const task = new Promise((r) => (resolve = r));
         const nodeMagicFormProvider = fixture<
             InstanceType<typeof MagicFormProvider>
         >(
@@ -31,14 +29,9 @@ describe("test", () => {
                 }}
             >
                 <MagicForm
-                    onChangeState={(
-                        event: DOMCustomEvent<
-                            null,
-                            InstanceType<typeof MagicForm>
-                        >
-                    ) => {
+                    onChangeState={(event) => {
                         expect(expectOnMagicForm.shift()).to.deep.equal(
-                            event.target.state
+                            event.currentTarget.state
                         );
                         if (!expectOnMagicForm.length) resolve();
                     }}

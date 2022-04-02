@@ -1,2 +1,2 @@
-export { MagicForm } from "./components/magic-form";
-export { MagicFormProvider } from "./components/magic-form-provider";
+export * from "./components/magic-form";
+export * from "./components/magic-form-provider";
