@@ -1,6 +1,8 @@
 import { useEvent, Ref, useState, DOMEvent } from "atomico";
 import { useListener } from "@atomico/hooks/use-listener";
 
+export type MagicFormSubmitter = HTMLButtonElement | HTMLInputElement;
+
 export enum MagicFormStatus {
     quiet = "",
     pending = "pending",
@@ -19,6 +21,7 @@ export interface MagicFormDetail {
     action: string;
     target: HTMLFormElement;
     observe(state: MagicFormActionStatus): void;
+    submitter?: MagicFormSubmitter;
 }
 
 export interface MagicFormsActions {
@@ -35,7 +38,10 @@ export interface MagicForms {
     [form: string]: MagicFormActionStatus;
 }
 
-export type Action = (form: HTMLFormElement) => Promise<any>;
+export type Action = (
+    form: HTMLFormElement,
+    submitter?: MagicFormSubmitter
+) => Promise<any>;
 
 export const eventTypeMagicFormSubmit = "MagicFormSubmit";
 
@@ -53,14 +59,17 @@ export function useMagicForm(
         composed: true,
     });
 
-    const submit = (event?: DOMEvent<"submit">) => {
+    const submit = (event?: DOMEvent<HTMLFormElement, SubmitEvent>) => {
         if (event) event.preventDefault();
+
         const { current: target } = ref as any;
+
         dispatchSubmit({
             target,
             action: options?.action || target.getAttribute("action") || "",
             name: options?.name || target.getAttribute("name") || "",
             observe: setState,
+            submitter: event?.submitter as any,
         });
     };
     //@ts-ignore
@@ -90,7 +99,7 @@ export function useMagicFormProvider(
         //@ts-ignore
         (event: CustomEvent<MagicFormDetail>) => {
             const {
-                detail: { action, target, observe, name },
+                detail: { action, target, observe, name, submitter },
             } = event;
             // If the action is not found the event will continue to bubble
             if (!actions[action]) return;
@@ -132,7 +141,7 @@ export function useMagicFormProvider(
                     const fn = actions[action];
                     // the listening process will generate an update on the same state once the promise is resolved
                     fn &&
-                        fn(target)
+                        fn(target, submitter)
                             .then((result) =>
                                 update({
                                     result,

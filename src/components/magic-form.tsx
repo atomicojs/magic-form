@@ -1,9 +1,8 @@
-import { c, useRef, useHost } from "atomico";
+import { Host, c, useRef } from "atomico";
 import { useMagicForm, MagicFormActionStatus, MagicFormStatus } from "../hooks";
 import { useSlot } from "@atomico/hooks/use-slot";
 
-function magicForm() {
-    const host = useHost();
+function magicForm(): Host<{ onChangeState: Event }> {
     const refSlot = useRef();
     const refForm = useRef();
     refForm.current = useSlot(refSlot).find(
