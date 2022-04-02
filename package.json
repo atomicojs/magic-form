@@ -28,7 +28,7 @@
         "start": "vite",
         "build": "vite build",
         "test": "rm -rf node_modules/.vite && wtr tests/**/*.test.tsx --node-resolve",
-        "exports": "exports \"src/*.{js,ts}\" --exports --analyzer --types --main components",
+        "exports": "exports \"src/**/*.{js,ts,tsx,jsx}\" --exports --analyzer --types --main components",
         "prepublishOnly": "npm run test && npm run exports"
     },
     "devDependencies": {

@@ -24,3 +24,5 @@ FormProvider.props = {
 };
 
 export const MagicFormProvider = c(FormProvider);
+
+customElements.define("magic-form-provider", MagicFormProvider);

@@ -34,3 +34,5 @@ magicForm.props = {
 };
 
 export const MagicForm = c(magicForm);
+
+customElements.define("magic-form", MagicForm);
