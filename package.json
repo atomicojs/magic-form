@@ -32,7 +32,7 @@
         "prepublishOnly": "npm run test && npm run exports"
     },
     "devDependencies": {
-        "@atomico/exports": "^0.22.2",
+        "@atomico/exports": "^0.27.0",
         "@atomico/hooks": "^3.33.4",
         "@esm-bundle/chai": "*",
         "@uppercod/vite-meta-url": "latest",
@@ -48,7 +48,7 @@
         "singleQuote": false
     },
     "peerDependencies": {
-        "@atomico/hooks": "^3.23.0",
-        "atomico": "^1.35.0"
+        "@atomico/hooks": "^3.33.4",
+        "atomico": "^1.51.0"
     }
 }
